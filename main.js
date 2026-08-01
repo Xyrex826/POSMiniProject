@@ -5,7 +5,7 @@ import { renderReports } from './reports.js';
 import { initCheckout } from './checkout.js';
 import { clearCart } from './state.js';
 import { showConfirm, closeConfirm, isConfirmOpen, initConfirmModal } from './confirm.js';
-import { initNumpad, isNumpadOpen, closeNumpad } from './numpad.js';
+import { initNumpad, isNumpadOpen, closeNumpad } from './Numpad.js';
 
 let currentSearch = '';
 let currentCategory = 'All';
