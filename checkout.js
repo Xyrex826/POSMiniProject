@@ -1,7 +1,7 @@
 import { $, peso, enforceMoneyInput } from './utils.js';
 import { cartTotal, checkoutTransaction } from './state.js';
 import { showReceipt } from './receipt.js';
-import { openAmountNumpad } from './numpad.js';
+import { openAmountNumpad } from './Numpad.js';
 
 // Wires up the checkout button, payment input, and confirm button.
 // onComplete is called after a transaction is successfully recorded,

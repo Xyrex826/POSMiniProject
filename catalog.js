@@ -1,7 +1,7 @@
 import { groceryItems } from './data.js';
 import { $, peso, enforceIntegerInput, sanitizeInteger, displayProductName } from './utils.js';
 import { setCartQuantity } from './state.js';
-import { openNumpad } from './numpad.js';
+import { openNumpad } from './Numpad.js';
 
 const categories = [...new Set(groceryItems.map(p => p.category))].sort();
 const CATEGORY_AVATAR_STYLES = {
