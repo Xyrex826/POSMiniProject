@@ -3,6 +3,8 @@ import { cart, cartTotal, removeFromCart } from './state.js';
 import { showConfirm } from './confirm.js';
 import { resetTile } from './catalog.js';
 
+// The cart view is a pure render of the in-memory order.
+// When the cart changes, this function rebuilds the visible line items and refreshes totals.
 export function renderCart(onRemove) {
   const wrap = $('cart-lines');
   const total = cartTotal();
@@ -23,6 +25,8 @@ export function renderCart(onRemove) {
         </div>
       `;
     }).join('');
+    // Each remove button is wired to a confirmation modal before anything is deleted.
+    // If confirmed, the cart line is removed from state and the catalog tile is reset to match.
     wrap.querySelectorAll('.crow-remove').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = Number(btn.dataset.id);

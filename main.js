@@ -10,10 +10,14 @@ import { initNumpad, isNumpadOpen, closeNumpad } from './Numpad.js';
 let currentSearch = '';
 let currentCategory = 'All';
 
+// The UI is re-built from shared state whenever the user changes the cart.
+// This keeps the catalog, cart, and reports in sync with the same source of truth.
 function refreshCart() {
   renderCart(refreshCart);
 }
 
+// Re-render the catalog using the current search text and selected category.
+// The callback tells the catalog how to update the cart after a quantity change.
 function refreshCatalog() {
   renderCatalog(currentSearch, currentCategory, refreshCart);
 }
@@ -47,6 +51,8 @@ initConfirmModal();
 initNumpad();
 
 /* ===================== ACTIONS (mouse + keyboard share this) ===================== */
+// Central place for the app's one-click actions.
+// Any button or shortcut ultimately routes through here so the flow stays consistent.
 function runAction(action) {
   switch (action) {
     case 'new-sale':

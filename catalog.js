@@ -49,8 +49,9 @@ export function renderCategoryFilters(activeCategory, onSelect) {
   });
 }
 
-// Renders the product grid as tiles. Each tile has a quantity stepper
-// (−, a manually-typeable number field, +) that updates the cart directly.
+// Renders the product grid as tiles. Each tile represents one catalog item.
+// The tile's quantity field is the entry point for the cart update flow.
+// Once the user commits a value, the state module updates the order and the UI is rerendered.
 export function renderCatalog(filter = '', category = 'All', onAdd) {
   const wrap = $('catalog');
   const sectionLabel = $('catalog-section-label');
@@ -96,8 +97,10 @@ export function renderCatalog(filter = '', category = 'All', onAdd) {
     wrap.appendChild(tile);
   });
 
-  // Manual typing: block bad keystrokes, strip anything that slips
-  // through, and clamp to a minimum of 0 on blur.
+  // Manual typing flow:
+  // 1) block invalid keys,
+  // 2) open the custom numpad on mouse/touch,
+  // 3) commit the final quantity to the shared cart state on blur or Enter.
   wrap.querySelectorAll('.tile-qty-input').forEach(inp => {
     enforceIntegerInput(inp, { min: 0 });
     const tile = inp.closest('.product-tile');
@@ -124,7 +127,8 @@ export function renderCatalog(filter = '', category = 'All', onAdd) {
     });
   });
 
-  // Clicking a tile increments the quantity and commits it immediately.
+  // Clicking the product tile itself acts like a quick add: it increments the staged quantity
+  // by 1 and pushes the updated cart state back into the order immediately.
   wrap.querySelectorAll('.product-tile').forEach(tile => {
     tile.addEventListener('click', e => {
       if (e.target.closest('.qty-btn') || e.target.closest('.tile-qty-input')) {

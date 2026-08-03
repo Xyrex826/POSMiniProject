@@ -2,14 +2,20 @@
 // a transaction stores its own copy of product details directly on each line item.
 import { groceryItems } from './data.js';
 
+// `cart` is the live order being built right now.
+// `transactions` keeps a permanent history of completed sales for reports.
 export const cart = [];          // current sale: [{product_id, product_name, product_price, category, quantity, subtotal}]
 export const transactions = [];  // completed sales, flat array
 let txCounter = 1;
 
+// Helper that adds up the current order total.
+// The UI calls this whenever it needs to display the running total.
 export function cartTotal() {
   return cart.reduce((sum, l) => sum + l.subtotal, 0);
 }
 
+// Adds or merges a product line into the active cart.
+// This is the bridge between the catalog tile and the cashier's current order.
 export function addToCart(productId, quantity) {
   const product = groceryItems.find(p => p.product_id === productId);
   if (!product) return;
@@ -83,8 +89,8 @@ export function clearCart() {
   cart.length = 0;
 }
 
-// Builds and records a transaction from the current cart, then clears the cart.
-// Returns the completed transaction record.
+// Checkout takes a snapshot of the current cart and turns it into a finalized receipt record.
+// After that, the cart is cleared so the next sale starts with a clean slate.
 export function checkoutTransaction(amountPaid) {
   const total = cartTotal();
   if (amountPaid < total) return null;

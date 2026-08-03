@@ -3,9 +3,9 @@ import { cartTotal, checkoutTransaction } from './state.js';
 import { showReceipt } from './receipt.js';
 import { openAmountNumpad } from './Numpad.js';
 
-// Wires up the checkout button, payment input, and confirm button.
-// onComplete is called after a transaction is successfully recorded,
-// so the caller can re-render the cart and reports.
+// Checkout setup connects the payment UI to the transaction state.
+// The user enters an amount, the app checks whether it covers the total,
+// and only then the order is finalized into a saved receipt transaction.
 export function initCheckout(onComplete) {
   enforceMoneyInput($('payment-input')); // blocks negative amounts; decimals stay allowed for centavos
 
@@ -45,6 +45,8 @@ export function initCheckout(onComplete) {
     }
   });
 
+  // The final confirm step converts the active cart into a receipt record.
+  // If the amount is valid, the modal/receipt UI is shown and the reports are refreshed.
   $('confirm-btn').addEventListener('click', () => {
     const paid = parseFloat($('payment-input').value);
     const transaction = checkoutTransaction(paid);
